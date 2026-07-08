@@ -5,10 +5,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Treat warnings as errors for production quality
+# Add standard warnings but do NOT treat them as errors globally, 
+# as this breaks third-party dependencies like spdlog.
 add_compile_options(
-    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Werror -pedantic>
+    $<$<CXX_COMPILER_ID:MSVC>:/W4>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wextra>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-pedantic>
 )
 
 # Fetch dependencies
