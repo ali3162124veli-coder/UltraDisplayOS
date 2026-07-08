@@ -133,7 +133,7 @@ Result<CapturedFrame> DxgiCapture::acquire_next_frame(uint32_t timeout_ms) {
     frame.width = width_;
     frame.height = height_;
     frame.format = format_;
-    frame.has_cursor_update = (frame_info.LastMouseUpdateTime > 0);
+    frame.has_cursor_update = (frame_info.LastMouseUpdateTime.QuadPart > 0);
 
     // Extract Dirty Rects
     if (frame_info.TotalMetadataBufferSize > metadata_buffer_.size()) {

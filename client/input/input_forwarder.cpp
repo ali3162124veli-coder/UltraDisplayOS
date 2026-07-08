@@ -20,7 +20,7 @@ InputForwarder::~InputForwarder() {
 
 Result<void> InputForwarder::init() {
     DIR* dir = opendir("/dev/input");
-    if (!dir) return Result<void>::create_error("Cannot open /dev/input");
+    if (!dir) return ud::Error(ud::ErrorCode::SystemError, "Cannot open /dev/input");
 
     struct dirent* entry;
     while ((entry = readdir(dir)) != nullptr) {
@@ -48,10 +48,10 @@ Result<void> InputForwarder::init() {
     closedir(dir);
 
     if (evdev_fds_.empty()) {
-        return Result<void>::create_error("No valid input devices found");
+        return ud::Error(ud::ErrorCode::SystemError, "No valid input devices found");
     }
 
-    return Result<void>::create_success();
+    return Result<void>();
 }
 
 void InputForwarder::start(std::function<void(const InputEvent&)> send_callback) {
