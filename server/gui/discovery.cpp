@@ -226,7 +226,6 @@ bool Discovery::parse_mdns_response(const uint8_t* data, int len, DiscoveredClie
     total_rr += ns_count;
 
     for (uint16_t i = 0; i < total_rr && offset < len; i++) {
-        int name_start = offset;
         std::string rr_name = decode_dns_name(data, len, offset);
         if (offset + 10 > len) break;
 

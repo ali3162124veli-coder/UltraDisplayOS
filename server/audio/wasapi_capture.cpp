@@ -38,17 +38,17 @@ Result<void> WasapiCapture::init() {
         if (ext->SubFormat == KSDATAFORMAT_SUBTYPE_IEEE_FLOAT) {
             format_.bit_depth = 32;
         } else if (ext->SubFormat == KSDATAFORMAT_SUBTYPE_PCM) {
-            format_.bit_depth = mix_format->wBitsPerSample;
+            format_.bit_depth = static_cast<uint8_t>(mix_format->wBitsPerSample);
         } else {
             CoTaskMemFree(mix_format);
             return ud::Error(ud::ErrorCode::SystemError, "Unsupported audio format");
         }
     } else {
-        format_.bit_depth = mix_format->wBitsPerSample;
+        format_.bit_depth = static_cast<uint8_t>(mix_format->wBitsPerSample);
     }
 
     format_.sample_rate = mix_format->nSamplesPerSec;
-    format_.channels = mix_format->nChannels;
+    format_.channels = static_cast<uint8_t>(mix_format->nChannels);
 
     // Loopback capture
     const REFERENCE_TIME requested_duration = 10000000; // 1 second buffer
